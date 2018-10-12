@@ -11,11 +11,13 @@ import java.awt.event.WindowEvent;
  * @author Zeta
  */
 public class MyGameFrame extends JFrame {
-    Image ball = GameUtil.getImage("images/ball.png");
+    Image sky = GameUtil.getImage("images/sky.jpg");
+    Image plane = GameUtil.getImage("images/plane.png");
+    int xPlane = 300, yPlane = 356;
     public void launchFrame() {
         //初始化窗口的方法
         this.setTitle("Zeta's Plane");
-        this.setSize(500, 500);
+        this.setSize(650, 406);
         this.setVisible(true);
         this.setLocation(500, 250);
         this.addWindowListener(new WindowAdapter() { //匿名内部类
@@ -24,11 +26,13 @@ public class MyGameFrame extends JFrame {
                 System.exit(0);
             }
         });
+        new  PaintThread().start();//启动PainThread线程
     }
 
     @Override
     public void paint(Graphics g) {    //自动被调用
         //画图方法
+        /*
         Color c = g.getColor(); //备份画笔颜色和字体
         Font b = g.getFont();
 
@@ -42,12 +46,28 @@ public class MyGameFrame extends JFrame {
 
         g.setColor(c);//还原画笔颜色和字体
         g.setFont(b);
+        */
 
-        g.drawImage(ball,250,250,null);
+        g.drawImage(sky,0,0,null);
+        g.drawImage(plane, xPlane, yPlane, null);
+        xPlane++;
     }
-
+    class PaintThread extends Thread{
+        //帮助一直重画窗口
+        @Override
+        public void run() {
+            while (true){
+                repaint();//重画
+                try {
+                    Thread.sleep(40);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
     public static void main(String[] args) {
         MyGameFrame f = new MyGameFrame();
         f.launchFrame();
-    }
+}
 }
