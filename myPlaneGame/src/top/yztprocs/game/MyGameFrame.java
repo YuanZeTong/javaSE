@@ -13,10 +13,10 @@ import java.awt.event.WindowEvent;
  * @author Zeta
  */
 public class MyGameFrame extends JFrame {
-    Image sky = GameUtil.getImage("images/sky.jpg");
+    Image sky = GameUtil.getImage("images/sky.png");
     Image plane = GameUtil.getImage("images/plane.png");
     Plane myPlane1 = new Plane(plane, 300, 360,3);
-    Plane myPlane2 = new Plane(plane, 350, 360,3);
+    Bullet bullet = new Bullet();
     //增加键盘监听内部类
     class KeyMonitor extends KeyAdapter {
         @Override
@@ -33,7 +33,7 @@ public class MyGameFrame extends JFrame {
     public void launchFrame() {
         //初始化窗口的方法
         this.setTitle("Zeta's Plane");
-        this.setSize(650, 406);
+        this.setSize(Constant.GAME_WIDTH, Constant.GAME_HEIGHT);
         this.setVisible(true);
         this.setLocation(500, 250);
         this.addWindowListener(new WindowAdapter() { //匿名内部类
@@ -50,7 +50,7 @@ public class MyGameFrame extends JFrame {
     public void paint(Graphics g) {    //自动被调用
         g.drawImage(sky,0,0,null);//显示背景天空图片;
         myPlane1.drawSelf(g);
-        myPlane2.drawSelf(g);
+        bullet.draw(g);
     }
     class PaintThread extends Thread{
         //帮助一直重画窗口
