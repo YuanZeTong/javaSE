@@ -2,6 +2,8 @@ package top.yztprocs.game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -13,8 +15,21 @@ import java.awt.event.WindowEvent;
 public class MyGameFrame extends JFrame {
     Image sky = GameUtil.getImage("images/sky.jpg");
     Image plane = GameUtil.getImage("images/plane.png");
-    Plane myPlane1 = new Plane(plane, 300, 360);
-    Plane myPlane2 = new Plane(plane, 350, 360);
+    Plane myPlane1 = new Plane(plane, 300, 360,3);
+    Plane myPlane2 = new Plane(plane, 350, 360,3);
+    //增加键盘监听内部类
+    class KeyMonitor extends KeyAdapter {
+        @Override
+        public void keyPressed(KeyEvent e) {
+            myPlane1.addDirection(e);
+
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            myPlane1.miusDirection(e);
+        }
+    }
     public void launchFrame() {
         //初始化窗口的方法
         this.setTitle("Zeta's Plane");
@@ -28,6 +43,7 @@ public class MyGameFrame extends JFrame {
             }
         });
         new  PaintThread().start();//启动PainThread线程
+        addKeyListener(new KeyMonitor());//给窗口创建键盘监听
     }
 
     @Override
