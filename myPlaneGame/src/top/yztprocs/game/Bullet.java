@@ -31,10 +31,10 @@ public class Bullet extends GameObject{
         setX(getX() + getSpeed() * Math.cos(degree));
         setY(getY() + getSpeed() * Math.sin(degree));
         if(getX() < 5 || getX() > Constant.GAME_WIDTH - 15){
-            degree = PI - degree;//反转角度,遇到左右边框反弹
+            degree = PI - degree;//反转角度,遇到左右边界反弹
         }
         if(getY() < 0 + 40 || getY() >Constant.GAME_HEIGHT-15){
-            degree = -degree;
+            degree = -degree;//反转角度,遇到上下边界反弹
         }
         g.setColor(c);
     }

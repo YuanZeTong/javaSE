@@ -4,26 +4,45 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Plane extends GameObject {
+    private boolean live = true;
     private boolean right,left,up,down;//添加控制方向
+
+    public boolean isLive() {
+        return live;
+    }
+
+    public void setLive(boolean live) {
+        this.live = live;
+    }
+
     public Plane(Image img, double x, double y) {
         super(img, (int)x, (int)y);
+        setWidth(img.getWidth(null));
+        setHeight(img.getHeight(null));
     }
     public Plane(Image img, double x, double y, int speed){
-        super(img, (int)x, (int)y);
+        this(img, x, y);
         setSpeed(speed);
     }
 
     @Override
     public void drawSelf(Graphics g) {
-        super.drawSelf(g);
-        if(right){
-            setX(getX() + getSpeed());}
-        if(left){
-            setX(getX() - getSpeed());}
-        if(up){
-            setY(getY() - getSpeed());}
-        if(down){
-            setY(getY() + getSpeed());}
+        if(live){
+            super.drawSelf(g);
+            if(right){
+                setX(getX() + getSpeed());}
+            if(left){
+                setX(getX() - getSpeed());}
+            if(up){
+                setY(getY() - getSpeed());}
+            if(down){
+                setY(getY() + getSpeed());}
+
+        }
+        else{
+            System.out.println("飞机被攻击了");
+        }
+
     }
     public void addDirection(KeyEvent e){
         //添加一个方向
