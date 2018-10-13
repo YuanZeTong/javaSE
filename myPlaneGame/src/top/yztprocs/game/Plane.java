@@ -16,16 +16,14 @@ public class Plane extends GameObject {
     @Override
     public void drawSelf(Graphics g) {
         super.drawSelf(g);
-        int controlSpeed = 5;
-        setY(getY() - getSpeed());
         if(right){
-            setX(getX() + controlSpeed);}
+            setX(getX() + getSpeed());}
         if(left){
-            setX(getX() - controlSpeed);}
+            setX(getX() - getSpeed());}
         if(up){
-            setY(getY() - controlSpeed);}
+            setY(getY() - getSpeed());}
         if(down){
-            setY(getY() + controlSpeed);}
+            setY(getY() + getSpeed());}
     }
     public void addDirection(KeyEvent e){
         //添加一个方向
