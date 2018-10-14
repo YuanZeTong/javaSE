@@ -16,6 +16,7 @@ public class MyGameFrame extends Frame {
     Image plane = GameUtil.getImage("images/plane.png");
     Plane myPlane1 = new Plane(plane, 300, 360,5);
     Bullet[] bulletArray = new Bullet[50];
+    Explode boom;
     //增加键盘监听内部类
     class KeyMonitor extends KeyAdapter {
         @Override
@@ -57,13 +58,17 @@ public class MyGameFrame extends Frame {
         myPlane1.drawSelf(g);
 
         for(int i = 0; i < 50; i++){
+            bulletArray[i].draw(g);
             boolean met = bulletArray[i].getRect().intersects(myPlane1.getRect());//利用矩形进行碰撞检测
             if(met){
                 myPlane1.setLive(false);
+               if(boom == null){
+                    boom = new Explode(myPlane1.getX(), myPlane1.getY());
+                }
+                boom.draw(g);
             }
             bulletArray[i].draw(g);
         }
-
         /*for(Bullet e : bulletArray){
             e.draw(g);
         }这种写法是错误的,foreach 不能初始化数组,不能改变数组内容*/

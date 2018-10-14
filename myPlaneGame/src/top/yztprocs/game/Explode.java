@@ -16,12 +16,13 @@ public class Explode {
             imgs[i].getWidth(null);
         }
     }
-    int count;
+    int count = 0;
 
-    public void draw(Graphics g){
-        if(count <= 6)
-            g.drawImage(imgs[count], (int)x, (int)y, null);
-        count++;
+    public void draw(Graphics g) {
+        if (count <= 5) {
+            g.drawImage(imgs[count], (int) x, (int) y, null);
+            count++;
+        }
     }
     public Explode(double x, double y){
         this.x = x;
