@@ -5,6 +5,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Date;
 
 /**
  * Function : game's main window
@@ -17,6 +18,8 @@ public class MyGameFrame extends Frame {
     Plane myPlane1 = new Plane(plane, 300, 360,5);
     Bullet[] bulletArray = new Bullet[50];
     Explode boom;
+    Date startTime = new Date();
+    int period;
     //增加键盘监听内部类
     class KeyMonitor extends KeyAdapter {
         @Override
@@ -54,6 +57,8 @@ public class MyGameFrame extends Frame {
 
     @Override
     public void paint(Graphics g) {    //自动被调用
+        Color c = g.getColor();
+        Font f = g.getFont();
         g.drawImage(sky,0,0,null);//显示背景天空图片;
         myPlane1.drawSelf(g);
 
@@ -61,17 +66,32 @@ public class MyGameFrame extends Frame {
             bulletArray[i].draw(g);
             boolean met = bulletArray[i].getRect().intersects(myPlane1.getRect());//利用矩形进行碰撞检测
             if(met){
-                myPlane1.setLive(false);
-               if(boom == null){
-                    boom = new Explode(myPlane1.getX(), myPlane1.getY());
+                if(myPlane1.isLive()){
+                    Date endTime = new Date();
+                    period =(int)(endTime.getTime() - startTime.getTime())/1000;
+                    myPlane1.setLive(false);
                 }
-                boom.draw(g);
+                /**
+                 * 待调试修复的爆炸模块
+               if(boom == null){
+                   boom = new Explode(myPlane1.getX(), myPlane1.getY());
+                   boom.draw(g);
+                }
+                */
+
             }
-            bulletArray[i].draw(g);
+            if(!myPlane1.isLive()){
+                Font myFont = new Font("楷体",Font.BOLD,35);
+                g.setFont(myFont);
+                g.setColor((Color.PINK));
+                g.drawString("存活时间:"+ period + "秒" , 200, 200);
+            }
         }
         /*for(Bullet e : bulletArray){
             e.draw(g);
         }这种写法是错误的,foreach 不能初始化数组,不能改变数组内容*/
+        g.setColor(c);
+        g.setFont(f);
     }
     class PaintThread extends Thread{
         //帮助一直重画窗口
